@@ -50,6 +50,7 @@ class Worker {
 
     while (true) {
       try {
+        conn.auth(System.getenv("REDIS_PASSWORD"));
         conn.keys("*");
         break;
       } catch (JedisConnectionException e) {
@@ -72,7 +73,7 @@ class Worker {
 
       while (conn == null) {
         try {
-          conn = DriverManager.getConnection(url, "postgres", "postgres");
+          conn = DriverManager.getConnection(url, "postgres_user", "postgres_password");
         } catch (SQLException e) {
           System.err.println("Waiting for db");
           sleep(1000);
